@@ -29,7 +29,8 @@ class QuestionRequest(BaseModel):
 #Define the Function to Get Gemini Response
 
 def get_gemini_response(question: str) -> str:
-    model = genai.GenerativeModel('gemini-pro')
+    try:
+        model = genai.GenerativeModel('gemini-pro')
         agent = "fashion designer"
         command = """Generate personalized outfit recommendations based on user details.
         Focus on creating stylish and suitable outfits considering the user's preferences, budget, and occasion.
@@ -76,3 +77,10 @@ def get_gemini_response(question: str) -> str:
         if response.startswith('[') and response.endswith(']'):
             response = response[1:-1]
         return response
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/get-gemini-response/")
+async def get_gemini_response_endpoint(request: QuestionRequest):
+    response = get_gemini_response(request.question)
+    return {response}
