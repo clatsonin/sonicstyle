@@ -19,3 +19,9 @@ genai.configure(api_key=api_key)
 from fastapi import FastAPI, HTTPException
 
 app = FastAPI()
+
+#Define the Request Model
+from pydantic import BaseModel
+
+class QuestionRequest(BaseModel):
+    question: str
