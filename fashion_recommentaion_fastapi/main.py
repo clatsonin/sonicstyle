@@ -9,3 +9,8 @@ if not api_key:
 
 #Install Required Packages
 #pip install fastapi pydantic uvicorn python-dotenv google-generativeai
+
+#Configure the Google Generative AI Client
+import google.generativeai as genai
+
+genai.configure(api_key=api_key)
