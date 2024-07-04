@@ -14,3 +14,8 @@ if not api_key:
 import google.generativeai as genai
 
 genai.configure(api_key=api_key)
+
+#Initialize FastAPI
+from fastapi import FastAPI, HTTPException
+
+app = FastAPI()
