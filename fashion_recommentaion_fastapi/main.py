@@ -30,5 +30,49 @@ class QuestionRequest(BaseModel):
 
 def get_gemini_response(question: str) -> str:
     model = genai.GenerativeModel('gemini-pro')
-    response = model.generate_content(question)
-    return response
+        agent = "fashion designer"
+        command = """Generate personalized outfit recommendations based on user details.
+        Focus on creating stylish and suitable outfits considering the user's preferences, budget, and occasion.
+        Your final recommendation should include a complete outfit with accessories. DON'T GIVE MORE THAN THREE RECOMMENDATIONS.
+        Highlight the style choices."""
+
+        question = "collect their skin tone, approximate dress size, gender" + question
+        json_format = """{
+  "response": [
+    {
+      "Outfit_name": "string",
+      "description": "string",
+      "style_reason": "string",
+      "top": "string",
+      "bottom": "string",
+      "shoes": "string",
+      "accessories": "string"
+    },
+    {
+      "Outfit_name": "string",
+      "description": "string",
+      "style_reason": "string",
+      "top": "string",
+      "bottom": "string",
+      "shoes": "string",
+      "accessories": "string"
+    },
+    {
+      "Outfit_name": "string",
+      "description": "string",
+      "style_reason": "string",
+      "top": "string",
+      "bottom": "string",
+      "shoes": "string",
+      "accessories": "string"
+    }
+  ]
+}"""
+
+        question = f"You are {agent}. Follow these commands {command} for this user {question}. Output in dictionary with this format {json_format}."
+        response = model.generate_content(question)
+        response = ' '.join(response.text.split())
+        # Remove the surrounding square brackets
+        if response.startswith('[') and response.endswith(']'):
+            response = response[1:-1]
+        return response
