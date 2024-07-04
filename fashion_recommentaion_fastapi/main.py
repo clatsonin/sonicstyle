@@ -25,3 +25,10 @@ from pydantic import BaseModel
 
 class QuestionRequest(BaseModel):
     question: str
+
+#Define the Function to Get Gemini Response
+
+def get_gemini_response(question: str) -> str:
+    model = genai.GenerativeModel('gemini-pro')
+    response = model.generate_content(question)
+    return response
